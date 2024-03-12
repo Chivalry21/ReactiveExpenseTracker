@@ -28,6 +28,18 @@ public class User extends BaseEntity implements UserDetails {
     private Role role = Role.ROLE_USER;
 
     @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
+    }
+
+
+
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }

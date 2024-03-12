@@ -14,4 +14,10 @@ public class Category extends BaseEntity{
     @Column(nullable = false)
     private String name;
 
+    @Override
+    public String toString() {
+        return "Category{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

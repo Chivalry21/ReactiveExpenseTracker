@@ -1,0 +1,10 @@
+id,expense,item name,category,amount,description
+1,Diapers,com.chivalrycode.expensetracker.model.Category@614bf532,1500.00,2
+2,Baby Wipes,com.chivalrycode.expensetracker.model.Category@614bf532,1800.00,2
+3,Infant formula,com.chivalrycode.expensetracker.model.Category@614bf532,2000.00,1 can
+4,Baby Shampoo ,com.chivalrycode.expensetracker.model.Category@614bf532,6000.00,1 can
+5,Baby Clothes ,com.chivalrycode.expensetracker.model.Category@614bf532,30000.00,5 outfits
+21, Pacifier ,com.chivalrycode.expensetracker.model.Category@614bf532,3500.00,2 Unit 
+28,Infant Bath Tub ,com.chivalrycode.expensetracker.model.Category@614bf532,20000.00,1 unit 
+29,Baby Monitor ,com.chivalrycode.expensetracker.model.Category@614bf532,12000.00,1 unit 
+33,Baby Carrier ,com.chivalrycode.expensetracker.model.Category@614bf532,30000.00,1 Unit 

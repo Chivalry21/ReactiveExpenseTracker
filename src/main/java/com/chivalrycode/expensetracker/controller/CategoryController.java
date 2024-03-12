@@ -1,5 +1,6 @@
 package com.chivalrycode.expensetracker.controller;
 
+import com.chivalrycode.expensetracker.asset.SaveCSV;
 import com.chivalrycode.expensetracker.dto.CategoryRequestDto;
 import com.chivalrycode.expensetracker.dto.CategoryResponseDto;
 import com.chivalrycode.expensetracker.service.CategoryService;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @AllArgsConstructor
@@ -16,6 +18,7 @@ import java.util.List;
 @RequestMapping("/api/categories")
 public class CategoryController {
     private  final CategoryService categoryService;
+    private final SaveCSV saveCSV;
     @PostMapping
     public ResponseEntity<CategoryResponseDto> createCategory(@Valid @RequestBody CategoryRequestDto categoryRequestDto){
         CategoryResponseDto createdCategory = categoryService.createCategory(categoryRequestDto);
@@ -39,5 +42,9 @@ public class CategoryController {
     public ResponseEntity<CategoryResponseDto> deleteCategory(@PathVariable Long id){
         categoryService.deleteCategory(id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/test")
+    public String doSomething() throws IOException {
+       return  saveCSV.createCSVFile("./src/main/resources/Sample.csv","Sample content");
     }
 }

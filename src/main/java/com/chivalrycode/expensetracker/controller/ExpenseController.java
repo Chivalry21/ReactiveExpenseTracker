@@ -2,6 +2,7 @@ package com.chivalrycode.expensetracker.controller;
 
 import com.chivalrycode.expensetracker.dto.ExpenseRequestDto;
 import com.chivalrycode.expensetracker.dto.ExpenseResponseDto;
+import com.chivalrycode.expensetracker.dto.ReportResponseDto;
 import com.chivalrycode.expensetracker.model.Expense;
 
 import com.chivalrycode.expensetracker.service.ExpenseService;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -51,12 +53,10 @@ public class ExpenseController {
             return new ResponseEntity<>(updatedExpense, HttpStatus.OK);//service.updateExpense(expense,id);
         }
         @GetMapping("/generate/report")
-    public String generateReport(@RequestParam (required = false) LocalDate startDate,
-                                 @RequestParam (required = false)LocalDate endDate,
-                                 @RequestParam (required = false)String category){
-            System.out.println(startDate);
-            System.out.println(endDate);
-            System.out.println(category);
-        return null;
+    public ReportResponseDto generateReport(@RequestParam (required = false) LocalDate startDate,
+                                            @RequestParam (required = false)LocalDate endDate,
+                                            @RequestParam (required = false)Long category) throws IOException {
+
+        return expenseService.generateReport(startDate, endDate, category);
     }
 }

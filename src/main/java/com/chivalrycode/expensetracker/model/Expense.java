@@ -24,4 +24,16 @@ public class Expense extends BaseEntity{
     private Category category;
     @ManyToOne
     private User user;
+
+    @Override
+    public String toString() {
+        return "Expense{" +
+                "itemName='" + itemName + '\'' +
+                ", description='" + description + '\'' +
+                ", amount=" + amount +
+                ", date=" + date +
+                ", category=" + category +
+                ", user=" + user +
+                '}';
+    }
 }

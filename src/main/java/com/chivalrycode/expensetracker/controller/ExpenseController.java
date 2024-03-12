@@ -54,7 +54,6 @@ public class ExpenseController {
     public String generateReport(@RequestParam (required = false) LocalDate startDate,
                                  @RequestParam (required = false)LocalDate endDate,
                                  @RequestParam (required = false)String category){
-
             System.out.println(startDate);
             System.out.println(endDate);
             System.out.println(category);

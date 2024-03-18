@@ -1,0 +1,31 @@
+id,item name,category,amount,description
+1,Diapers,Baby Care,1500.00,2
+2,Baby Wipes,Baby Care,1800.00,2
+3,Infant formula,Baby Care,2000.00,1 can
+4,Baby Shampoo ,Baby Care,6000.00,1 can
+5,Baby Clothes ,Baby Care,30000.00,5 outfits
+7,Apples,Food Stuff,4000.00,2 kg 
+8,Milk,Food Stuff,3000.00,1 gallon 
+10,Rice,Food Stuff,10000.00,5 lbs 
+11,Canned Bean,Provisions,5000.00,4 Cans 
+12,Canned Bean,Provisions,5000.00,4 Cans 
+13,Pasta ,Provisions,4000.00,3 Boxes 
+14,Cooking Oil ,Provisions,7000.00,1 Bottle 
+15, Flour ,Provisions,3000.00,2kg 
+16, ToothPsate ,Health,3000.00,2 tubes 
+17, Band-Aids ,Health,2500.00,1 Box 
+18, Multivitamins ,Health,10000.00,1 Bottle 
+19, Hand Sanitizer ,Health,700.00,1 Bottle 
+20, Thermometer ,Health,1500.00,1 Unit 
+21, Pacifier ,Baby Care,3500.00,2 Unit 
+22, Carrots ,Food Stuff,2500.00,2kg 
+23, Chicken ,Food Stuff,8000.00,2lbs 
+24, yogurt ,Food Stuff,5500.00,6Cups 
+25, Peanuts Butter ,Provisions,4000.00,1 jar 
+26,Tissues,Health,2000.00,1 Box 
+27,Hand Soap,Health,4000.00,1 Bottle 
+28,Infant Bath Tub ,Baby Care,20000.00,1 unit 
+29,Baby Monitor ,Baby Care,12000.00,1 unit 
+30,Cereal ,Food Stuff,12000.00,2 Boxes 
+31,Dish Soap ,Provisions,1000.00,1 Bottle 
+33,Baby Carrier ,Baby Care,30000.00,1 Unit 

@@ -56,7 +56,6 @@ public class ExpenseController {
     public ReportResponseDto generateReport(@RequestParam (required = false) LocalDate startDate,
                                             @RequestParam (required = false)LocalDate endDate,
                                             @RequestParam (required = false)Long category) throws IOException {
-
         return expenseService.generateReport(startDate, endDate, category);
     }
 }

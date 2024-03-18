@@ -39,4 +39,13 @@ public class ExceptionAdvice {
         return err;
 
     }
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public HashMap<String,String> handleBadRequestException(BadRequestException e) {
+        HashMap<String, String> err = new HashMap<>();
+        err.put("error",e.getMessage());
+        System.out.println("something went wrong");
+        return err;
+
+    }
 }

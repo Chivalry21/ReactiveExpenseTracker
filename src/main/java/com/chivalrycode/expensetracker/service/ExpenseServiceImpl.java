@@ -4,6 +4,7 @@ import com.chivalrycode.expensetracker.asset.SaveCSV;
 import com.chivalrycode.expensetracker.dto.ExpenseRequestDto;
 import com.chivalrycode.expensetracker.dto.ExpenseResponseDto;
 import com.chivalrycode.expensetracker.dto.ReportResponseDto;
+import com.chivalrycode.expensetracker.exception.BadRequestException;
 import com.chivalrycode.expensetracker.exception.CategoryNotFoundException;
 import com.chivalrycode.expensetracker.mapper.ExpenseMapper;
 import com.chivalrycode.expensetracker.model.Category;
@@ -74,18 +75,43 @@ public class ExpenseServiceImpl implements ExpenseService{
         return expenseRepository.findByCategory(category.get()).stream().map(expenseMapper::toExpenseResponseDto).collect(Collectors.toList());
 
     }
-
     @Override
     public ReportResponseDto generateReport(LocalDate startDt, LocalDate endDt, Long categoryId) throws IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
-        Optional<Category> category1 = categoryRepository.findById(categoryId);
+        if(startDt == null && endDt == null && categoryId == null){
+            throw new BadRequestException("you must provide at least a category or start Date");
+        }
+        Optional<Category> category1 = Optional.empty();
+        if(categoryId!= null)
+            category1 = categoryRepository.findById(categoryId);
         List<Expense> expenses = new ArrayList<>();
         String filename = "";
+        LocalDate localDate = LocalDate.now();
         if(startDt == null && endDt == null){
             expenses = expenseRepository.findByUserAndCategory(user, category1.get());
-            LocalDate localDate = LocalDate.now();
             filename = "./src/main/resources/report_generated_for_"+ category1.get().getName()+"_generated_on_" + localDate+".csv";
+        }
+        if(startDt!= null ){
+            if(endDt!= null){
+                if(categoryId!= null){
+                    expenses = expenseRepository.findByDateRangeAndCategory(startDt,endDt,categoryId, user.getId());
+                    filename = "./src/main/resources/report_generated_for_"+ category1.get().getName()+"_from_"+startDt+"_to_"+endDt+"_generated_on_" + localDate+".csv";
+                }else {
+                    expenses = expenseRepository.findByDateRange(startDt,endDt, user.getId());
+                    filename = "./src/main/resources/report_generated_for_all_categories_from_"+startDt+"_to_"+endDt+"_generated_on_" + localDate+".csv";
+                }
+            }else {
+                if(categoryId!= null){
+                    LocalDate now = LocalDate.now();
+                    expenses = expenseRepository.findByDateRangeAndCategory(startDt,now,categoryId, user.getId());
+                    filename = "./src/main/resources/report_generated_for_"+ category1.get().getName()+"_from_"+startDt+"_to_"+now+"_generated_on_" + localDate+".csv";
+                }else {
+                    LocalDate now = LocalDate.now();
+                    expenses = expenseRepository.findByDateRange(startDt,now,user.getId());
+                    filename = "./src/main/resources/report_generated_for_all_categories"+"_from_"+startDt+"_to_"+now+"_generated_on_" + localDate+".csv";
+                }
+            }
         }
         StringBuilder content = new StringBuilder();
         content.append("id,item name,category,amount,description\n");
@@ -93,8 +119,6 @@ public class ExpenseServiceImpl implements ExpenseService{
             content.append(expense.getId()).append(",").append(expense.getItemName()).append(",").append(expense.getCategory().getName()).append(",").append(expense.getAmount()).append(",").append(expense.getDescription()).append("\n");
         });
         saveCSV.createCSVFile(filename,content.toString());
-        System.out.println(expenses);
-
-        return null;
+        return new ReportResponseDto("Report generated successfully", filename);
     }
 }

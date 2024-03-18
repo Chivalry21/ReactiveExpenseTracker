@@ -26,7 +26,6 @@ public class AuthController {
         return authService.signUp(userDto);
     }
 
-
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public AuthResponseDto login(@Valid @RequestBody LoginDto loginDto) {

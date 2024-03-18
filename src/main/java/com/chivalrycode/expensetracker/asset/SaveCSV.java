@@ -14,5 +14,5 @@ public class SaveCSV {
             bufferedWriter.flush();
             return "file successfully saved";
         }
-    }
+    }//filewriter create an empty file and bufferedwriter write to the file.write to exact location
 }

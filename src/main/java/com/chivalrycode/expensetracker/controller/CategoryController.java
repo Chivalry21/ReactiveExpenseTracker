@@ -43,8 +43,5 @@ public class CategoryController {
         categoryService.deleteCategory(id);
         return ResponseEntity.noContent().build();
     }
-    @GetMapping("/test")
-    public String doSomething() throws IOException {
-       return  saveCSV.createCSVFile("./src/main/resources/Sample.csv","Sample content");
-    }
+
 }

@@ -2,20 +2,20 @@ package com.chivalrycode.expensetracker.mapper;
 
 import com.chivalrycode.expensetracker.dto.CategoryRequestDto;
 import com.chivalrycode.expensetracker.dto.CategoryResponseDto;
-import com.chivalrycode.expensetracker.model.Category;
+import com.chivalrycode.expensetracker.model.Categories;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CategoryMapper {
-    public Category toCategory(CategoryRequestDto categoryRequestDto){
-        Category category = new Category(categoryRequestDto.getName());
-        category.setId(categoryRequestDto.getId());
-        return category;
+    public Categories toCategory(CategoryRequestDto categoryRequestDto){
+        Categories categories = new Categories(categoryRequestDto.getName());
+        categories.setId(categoryRequestDto.getId());
+        return categories;
 }
-    public CategoryResponseDto toCategoryResponseDto(Category category){
+    public CategoryResponseDto toCategoryResponseDto(Categories categories){
         return CategoryResponseDto.builder()
-                .name(category.getName())
-                .id(category.getId())
+                .name(categories.getName())
+                .id(categories.getId())
                 .build();
     }
 

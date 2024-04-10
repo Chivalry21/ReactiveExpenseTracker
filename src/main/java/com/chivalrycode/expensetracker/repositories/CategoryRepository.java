@@ -1,7 +1,7 @@
 package com.chivalrycode.expensetracker.repositories;
 
-import com.chivalrycode.expensetracker.model.Category;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.chivalrycode.expensetracker.model.Categories;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
-public interface CategoryRepository extends JpaRepository<Category,Long> {
+public interface CategoryRepository extends ReactiveCrudRepository<Categories,Long> {
 }

@@ -1,33 +1,19 @@
 package com.chivalrycode.expensetracker.service;
 
 
-import com.chivalrycode.expensetracker.configuration.JwtService;
-import com.chivalrycode.expensetracker.dto.AuthResponseDto;
-import com.chivalrycode.expensetracker.dto.LoginDto;
 import com.chivalrycode.expensetracker.dto.UserDto;
+import com.chivalrycode.expensetracker.dto.RegUserDto;
 import com.chivalrycode.expensetracker.dto.UserResponseDto;
 import com.chivalrycode.expensetracker.enums.Role;
+import com.chivalrycode.expensetracker.exception.BadRequestException;
 import com.chivalrycode.expensetracker.mapper.UserMapper;
-import com.chivalrycode.expensetracker.model.Token;
 import com.chivalrycode.expensetracker.model.User;
 import com.chivalrycode.expensetracker.repositories.TokenRepository;
 import com.chivalrycode.expensetracker.repositories.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.chivalrycode.expensetracker.exception.BadRequestException;
-
-import java.util.List;
+import reactor.core.publisher.Mono;
 
 
 @Service
@@ -37,70 +23,82 @@ import java.util.List;
 public class AuthServiceImpl implements UserService  {
 
     private final UserRepository userRepository;
-    private final HttpServletRequest request;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
     private final UserMapper userMapper;
-    private final TokenRepository tokenRepository;
+
 
     @Override
-    public ResponseEntity<UserResponseDto> signUp(UserDto userDto) throws BadRequestException {
+    public Mono<UserResponseDto> signUp(RegUserDto userDto) throws BadRequestException {
 
-        if (userRepository.findByUsernameIgnoreCase(userDto.getUsername()).isPresent()) {
-            throw new BadRequestException("User already exists");
+        Mono<User> userExist = userRepository.findByUsernameIgnoreCase(userDto.getUsername());
+        userExist.flatMap(existingUser-> Mono.error(new BadRequestException("User already exists")))
+                .switchIfEmpty(createUser(userDto));
+
+
+        UserResponseDto userResponseDto = new UserResponseDto(userDto.getName(), "Account success");
+        return Mono.just(userResponseDto);
+    }
+
+    @Override
+    public User getUser(UserDto userDto) {
+        Mono<User> user = userRepository.findByUsernameIgnoreCase(userDto.username());
+        return user.block();
+
+    }
+   /* @Override
+    public Mono<AuthResponseDto> login(LoginDto loginDto) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginDto.username(),
+                            loginDto.password()
+                    )
+            );
+            Mono<User> user = userRepository.findByUsernameIgnoreCase(loginDto.username());
+            Optional<User> userOptional = user.blockOptional();
+            User u = userOptional.get();
+            String jwtToken = jwtService.generateToken(u);
+            revokeAllToken(u);
+            saveUserToken(u, jwtToken);
+            AuthResponseDto authResponseDto = new AuthResponseDto(u.getName(),jwtToken);
+            return Mono.just(authResponseDto);
+
+        }catch (AuthenticationException e){
+            throw new RuntimeException("User not found with email: " + loginDto.username());
         }
-        User user = userMapper.toUser(userDto);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(Role.ROLE_USER);
-        User user1 = userRepository.save(user);
-        UserResponseDto userResponseDto = new UserResponseDto(user1.getName(), "Account success");
-        return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
-    }
-    @Override
-    public AuthResponseDto login(LoginDto loginDto) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginDto.username(),
-                        loginDto.password()
-                )
-        );
-        User user = userRepository.findByUsernameIgnoreCase(loginDto.username())
-                .orElseThrow(() -> new RuntimeException("User not found with email: " + loginDto.username()));
-        String jwtToken = jwtService.generateToken(user);
-        revokeAllToken(user);
-
-        saveUserToken(user, jwtToken);
-        return new AuthResponseDto(user.getName(), jwtToken);
     }
 
-    private void revokeAllToken(User user) {
+    private Mono<Void> revokeAllToken(User user) {
         List<Token> tokenList = tokenRepository.findAllValidTokenByUser(user.getId());
         if (tokenList.isEmpty()) {
-            return;
+            return Mono.empty();
         }
         for (Token token : tokenList) {
             token.setRevoked(true);
             token.setExpired(true);
             tokenRepository.saveAll(tokenList);
         }
+        return Mono.empty();
     }
 
-    private void saveUserToken(User savedUser, String jwtToken) {
+    private Mono<Token> saveUserToken(User savedUser, String jwtToken) {
         Token token = Token.builder()
                 .token(jwtToken)
-                .users(savedUser)
+                .user_id(savedUser.getId())
                 .isExpired(false)
                 .isRevoked(false)
                 .build();
-        tokenRepository.save(token);
-
+        return tokenRepository.save(token);
     }
     @Override
-    public void logout() {
+    public Mono<Void> logout() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        revokeAllToken(user);
-    }
+        return revokeAllToken(user);
+    }*/
 
+    public Mono<User> createUser(RegUserDto userDto){
+        User user = userMapper.toUser(userDto);
+        user.setRole(Role.ROLE_USER);
+        return userRepository.save(user);
+    }
 }

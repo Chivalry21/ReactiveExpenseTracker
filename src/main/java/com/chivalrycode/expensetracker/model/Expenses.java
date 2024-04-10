@@ -1,29 +1,25 @@
 package com.chivalrycode.expensetracker.model;
 
-import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-@Entity
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Setter
-public class Expense extends BaseEntity{
-    @Column(nullable = false)
+public class Expenses {
+    @Id
+    private Long id;
     private String itemName;
     private String description;
-    @Column(nullable = false)
     private BigDecimal amount;
-    @Column(nullable = false)
     private LocalDate date;
-    @JoinColumn(name = "category_id",nullable = false)
-    @ManyToOne
-    private Category category;
-    @ManyToOne
-    private User user;
+    private Long categoryId;
+
 
     @Override
     public String toString() {
@@ -32,8 +28,6 @@ public class Expense extends BaseEntity{
                 ", description='" + description + '\'' +
                 ", amount=" + amount +
                 ", date=" + date +
-                ", category=" + category +
-                ", user=" + user +
                 '}';
     }
 }

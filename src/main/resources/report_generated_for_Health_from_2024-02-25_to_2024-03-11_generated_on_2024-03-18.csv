@@ -1,4 +1,4 @@
-id,item name,category,amount,description
+id,item name,categories,amount,description
 16, ToothPsate ,Health,3000.00,2 tubes 
 17, Band-Aids ,Health,2500.00,1 Box 
 18, Multivitamins ,Health,10000.00,1 Bottle 

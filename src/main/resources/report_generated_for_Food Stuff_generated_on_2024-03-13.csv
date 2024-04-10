@@ -1,4 +1,4 @@
-id,item name,category,amount,description
+id,item name,categories,amount,description
 6,Bread,Food Stuff,4000.00,2 loaves 
 7,Apples,Food Stuff,4000.00,2 kg 
 8,Milk,Food Stuff,3000.00,1 gallon 

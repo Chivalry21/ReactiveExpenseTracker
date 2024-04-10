@@ -2,19 +2,14 @@ package com.chivalrycode.expensetracker.controller;
 
 import com.chivalrycode.expensetracker.dto.ExpenseRequestDto;
 import com.chivalrycode.expensetracker.dto.ExpenseResponseDto;
-import com.chivalrycode.expensetracker.dto.ReportResponseDto;
-import com.chivalrycode.expensetracker.model.Expense;
 
 import com.chivalrycode.expensetracker.service.ExpenseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,39 +18,40 @@ public class ExpenseController {
     private final ExpenseService expenseService;
 
     @PostMapping
-    public ResponseEntity<ExpenseResponseDto> createExpense(@Valid @RequestBody ExpenseRequestDto expenseRequestDto){
-        ExpenseResponseDto createdExpense = expenseService.saveExpense(expenseRequestDto);
-        return  new ResponseEntity<>(createdExpense,HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Mono<ExpenseResponseDto> createExpense(@Valid @RequestBody ExpenseRequestDto expenseRequestDto){
+        return expenseService.saveExpense(expenseRequestDto);
     }
     @GetMapping("/category/{id}")
-    public ResponseEntity<List<ExpenseResponseDto>> getExpenseByCategory(@PathVariable Long id){
-        List<ExpenseResponseDto> expenses = expenseService.getByCategory(id);
-        return ResponseEntity.ok(expenses);
+    @ResponseStatus(HttpStatus.OK)
+    public Flux<ExpenseResponseDto> getExpenseByCategory(@PathVariable Long id){
+        return expenseService.getByCategory(id);
     }
     @GetMapping
-    public ResponseEntity<List<ExpenseResponseDto>> getAllExpense(){
-        List<ExpenseResponseDto> expenses = expenseService.getAllExpense();
-        return ResponseEntity.ok(expenses);
+    @ResponseStatus(HttpStatus.OK)
+    public Flux<ExpenseResponseDto> getAllExpense(){
+        return expenseService.getAllExpense();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<ExpenseResponseDto> getExpenseById(@PathVariable Long id) {
-        ExpenseResponseDto expenseResponseDto = expenseService.getExpenseById(id);
-            return new ResponseEntity<>(expenseResponseDto, HttpStatus.OK);
-        }
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<ExpenseResponseDto> getExpenseById(@PathVariable Long id) {
+        return expenseService.getExpenseById(id);
+    }
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteExpenseById ( @PathVariable Long id){
-            expenseService.deleteExpense(id);
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
-            }
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<Void> deleteExpenseById ( @PathVariable Long id){
+          return  expenseService.deleteExpense(id);
+    }
     @PutMapping
-    public ResponseEntity<ExpenseResponseDto> updateExpense (@RequestBody ExpenseRequestDto expenseDto){
-        ExpenseResponseDto updatedExpense = expenseService.updateExpense(expenseDto);
-            return new ResponseEntity<>(updatedExpense, HttpStatus.OK);//service.updateExpense(expense,id);
-        }
-        @GetMapping("/generate/report")
-    public ReportResponseDto generateReport(@RequestParam (required = false) LocalDate startDate,
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<ExpenseResponseDto> updateExpense (@Valid @RequestBody ExpenseRequestDto expenseDto) {
+        return expenseService.updateExpense(expenseDto);
+    }
+    /*@GetMapping("/generate/report")
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<ReportResponseDto> generateReport(@RequestParam (required = false) LocalDate startDate,
                                             @RequestParam (required = false)LocalDate endDate,
                                             @RequestParam (required = false)Long category) throws IOException {
         return expenseService.generateReport(startDate, endDate, category);
-    }
+    }*/
 }

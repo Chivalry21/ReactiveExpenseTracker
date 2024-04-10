@@ -1,6 +1,5 @@
 package com.chivalrycode.expensetracker.dto;
 
-import com.chivalrycode.expensetracker.model.Category;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -16,6 +15,6 @@ public class ExpenseResponseDto {
     private String description;
     private BigDecimal amount;
     private LocalDate date;
-    private Category category;
+    private Long categoryId;
 
 }

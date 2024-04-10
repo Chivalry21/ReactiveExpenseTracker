@@ -1,15 +1,16 @@
 package com.chivalrycode.expensetracker.service;
 
-import com.chivalrycode.expensetracker.dto.AuthResponseDto;
-import com.chivalrycode.expensetracker.dto.LoginDto;
 import com.chivalrycode.expensetracker.dto.UserDto;
+import com.chivalrycode.expensetracker.dto.RegUserDto;
 import com.chivalrycode.expensetracker.dto.UserResponseDto;
 import com.chivalrycode.expensetracker.exception.BadRequestException;
-import org.springframework.http.ResponseEntity;
+import com.chivalrycode.expensetracker.model.User;
+import reactor.core.publisher.Mono;
 
 public interface UserService {
-    ResponseEntity<UserResponseDto> signUp(UserDto userDto) throws BadRequestException;
+    Mono<UserResponseDto> signUp(RegUserDto userDto) throws BadRequestException;
+    User getUser(UserDto userDto);
     //User updateUser(User item);
-     AuthResponseDto login(LoginDto dto);
-    void logout();
+ //  Mono<AuthResponseDto> login(LoginDto dto);
+    //Mono<Void> logout();
 }

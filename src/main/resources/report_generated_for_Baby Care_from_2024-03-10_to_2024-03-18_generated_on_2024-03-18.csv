@@ -1,4 +1,4 @@
-id,item name,category,amount,description
+id,item name,categories,amount,description
 1,Diapers,Baby Care,1500.00,2
 2,Baby Wipes,Baby Care,1800.00,2
 3,Infant formula,Baby Care,2000.00,1 can

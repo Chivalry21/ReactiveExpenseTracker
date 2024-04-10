@@ -1,10 +1,10 @@
-id,expense,item name,category,amount,description
-6,Bread,com.chivalrycode.expensetracker.model.Category@1ebe9312,4000.00,2 loaves 
-7,Apples,com.chivalrycode.expensetracker.model.Category@1ebe9312,4000.00,2 kg 
-8,Milk,com.chivalrycode.expensetracker.model.Category@1ebe9312,3000.00,1 gallon 
-9,Eggs,com.chivalrycode.expensetracker.model.Category@1ebe9312,2000.00,1 dozen 
-10,Rice,com.chivalrycode.expensetracker.model.Category@1ebe9312,10000.00,5 lbs 
-22, Carrots ,com.chivalrycode.expensetracker.model.Category@1ebe9312,2500.00,2kg 
-23, Chicken ,com.chivalrycode.expensetracker.model.Category@1ebe9312,8000.00,2lbs 
-24, yogurt ,com.chivalrycode.expensetracker.model.Category@1ebe9312,5500.00,6Cups 
-30,Cereal ,com.chivalrycode.expensetracker.model.Category@1ebe9312,12000.00,2 Boxes 
+id,expenses,item name,categories,amount,description
+6,Bread,com.chivalrycode.expensetracker.model.Categories@1ebe9312,4000.00,2 loaves
+7,Apples,com.chivalrycode.expensetracker.model.Categories@1ebe9312,4000.00,2 kg
+8,Milk,com.chivalrycode.expensetracker.model.Categories@1ebe9312,3000.00,1 gallon
+9,Eggs,com.chivalrycode.expensetracker.model.Categories@1ebe9312,2000.00,1 dozen
+10,Rice,com.chivalrycode.expensetracker.model.Categories@1ebe9312,10000.00,5 lbs
+22, Carrots ,com.chivalrycode.expensetracker.model.Categories@1ebe9312,2500.00,2kg
+23, Chicken ,com.chivalrycode.expensetracker.model.Categories@1ebe9312,8000.00,2lbs
+24, yogurt ,com.chivalrycode.expensetracker.model.Categories@1ebe9312,5500.00,6Cups
+30,Cereal ,com.chivalrycode.expensetracker.model.Categories@1ebe9312,12000.00,2 Boxes

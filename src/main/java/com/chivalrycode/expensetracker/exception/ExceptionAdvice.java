@@ -1,7 +1,6 @@
 package com.chivalrycode.expensetracker.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -23,13 +22,6 @@ public class ExceptionAdvice {
                 });
         //System.out.println(ex);
         return error;
-    }
-    @ExceptionHandler(BadCredentialsException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public HashMap<String,String> handleBadCredentials(BadCredentialsException e){
-        HashMap <String, String> err = new HashMap<>();
-        err.put("error","invalid username or password");
-        return err;
     }
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

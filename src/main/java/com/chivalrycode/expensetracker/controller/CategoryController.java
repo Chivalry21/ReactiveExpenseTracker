@@ -7,11 +7,9 @@ import com.chivalrycode.expensetracker.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @AllArgsConstructor
 @RestController
@@ -20,28 +18,26 @@ public class CategoryController {
     private  final CategoryService categoryService;
     private final SaveCSV saveCSV;
     @PostMapping
-    public ResponseEntity<CategoryResponseDto> createCategory(@Valid @RequestBody CategoryRequestDto categoryRequestDto){
-        CategoryResponseDto createdCategory = categoryService.createCategory(categoryRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<CategoryResponseDto> createCategory(@Valid @RequestBody CategoryRequestDto categoryRequestDto){
+      return categoryService.createCategory(categoryRequestDto);
     }
     @GetMapping
-    public ResponseEntity<List<CategoryResponseDto>> getAllCategories(CategoryRequestDto categoryRequestDto){
-        return ResponseEntity.ok(categoryService.getAllCategories());
+    public Flux<CategoryResponseDto> getAllCategories(CategoryRequestDto categoryRequestDto){
+        return categoryService.getAllCategories();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryResponseDto> getCategoryById(@PathVariable Long id){
-        return new ResponseEntity<>(categoryService.getCategoryById(id),HttpStatus.OK);
-       //return ResponseEntity.ok(categoryService.getCategoryById(id));
+    public Mono<CategoryResponseDto> getCategoryById(@PathVariable Long id){
+        return categoryService.getCategoryById(id);
     }
     @PutMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public CategoryResponseDto updateCategory(@RequestBody CategoryRequestDto requestDto){
+    public Mono<CategoryResponseDto> updateCategory(@RequestBody CategoryRequestDto requestDto){
         return categoryService.updateCategory(requestDto);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<CategoryResponseDto> deleteCategory(@PathVariable Long id){
-        categoryService.deleteCategory(id);
-        return ResponseEntity.noContent().build();
+    public Mono<Void> deleteCategory(@PathVariable Long id){
+        return categoryService.deleteCategory(id);
     }
 
 }

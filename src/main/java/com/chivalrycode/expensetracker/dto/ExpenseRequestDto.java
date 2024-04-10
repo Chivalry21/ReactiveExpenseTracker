@@ -14,6 +14,8 @@ import java.time.LocalDate;
 @Getter
 @Builder
 public class ExpenseRequestDto {
+
+    private Long id;
     @NotBlank
     private String itemName;
     private String description;
@@ -22,17 +24,19 @@ public class ExpenseRequestDto {
     @PastOrPresent
     @NotNull
     private LocalDate date;
+    @NotBlank
     private Long categoryId;
 
 
     @Override
     public String toString() {
         return "ExpenseRequestDto{" +
+                "id=" + id +
                 ", itemName='" + itemName + '\'' +
                 ", description='" + description + '\'' +
                 ", amount=" + amount +
                 ", date=" + date +
-                ", category=" + categoryId +
+                ", categoryId=" + categoryId +
                 '}';
     }
 }

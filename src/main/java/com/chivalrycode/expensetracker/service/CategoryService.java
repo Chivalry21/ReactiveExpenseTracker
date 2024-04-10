@@ -4,18 +4,20 @@ import com.chivalrycode.expensetracker.dto.CategoryRequestDto;
 import com.chivalrycode.expensetracker.dto.CategoryResponseDto;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
 
 public interface CategoryService {
-    List<CategoryResponseDto> getAllCategories();
+    Flux<CategoryResponseDto> getAllCategories();
 
-    CategoryResponseDto createCategory(CategoryRequestDto requestDto);
+    Mono<CategoryResponseDto> createCategory(CategoryRequestDto requestDto);
 
-    CategoryResponseDto getCategoryById(Long id);
+    Mono<CategoryResponseDto> getCategoryById(Long id);
 
-    CategoryResponseDto updateCategory(CategoryRequestDto requestDto);
+    Mono<CategoryResponseDto> updateCategory(CategoryRequestDto requestDto);
 
-    void deleteCategory(Long id);
+    Mono<Void> deleteCategory(Long id);
 }
